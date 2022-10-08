@@ -28,6 +28,10 @@ public class Camera_tracking : MonoBehaviour
     [SerializeField]
     bool Rotation_bool = false;
 
+    [Tooltip("Цель в сторону которой будет смотреть")]
+    [SerializeField]
+    Transform Target_look = null;
+
     [Tooltip("Смещение камеры по наклону")]
     [SerializeField]
     Vector3 Offset_rotation = Vector3.zero;
@@ -65,20 +69,47 @@ public class Camera_tracking : MonoBehaviour
 
             if (Rotation_bool)
             {
-                target_vector += Target.forward * Offset.z;
-                target_vector += Target.up * Offset.y;
+                if (Target_look)
+                {
+                    target_vector += (Target_look.position - new Vector3(Target.position.x, Target.position.y, Target.position.z)).normalized * Offset.z;
+                }
+                else
+                {
+                    target_vector += Target.forward * Offset.z;
+                }
+
                 target_vector += Target.right * Offset.x;
+                target_vector += Target.up * Offset.y;
 
                 if (Movement_bool)
                 {
+
+
                     transform.position = Vector3.MoveTowards(transform.position, Target.transform.position + target_vector, Speed_movement);
-                    transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(Target.eulerAngles + Offset_rotation), Speed_rotation);
+
+                    if (Target_look)
+                    {
+                        Vector3 fin_rotation = Quaternion.LookRotation(new Vector3(Target_look.position.x, transform.position.y, Target_look.position.z) - transform.position).eulerAngles;
+                        fin_rotation += Offset_rotation;
+
+                        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(fin_rotation), Speed_rotation);
+                    }
+                    else
+                        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(Target.eulerAngles + Offset_rotation), Speed_rotation);
                     //transform.eulerAngles = Vector3.MoveTowards(transform.eulerAngles, Target.eulerAngles + Offset_rotation, Speed_rotation);
                 }
                 else
                 {
                     transform.position = Target.transform.position + target_vector;
-                    transform.eulerAngles = Target.eulerAngles + Offset_rotation;
+
+                    if (Target_look)
+                    {
+                        transform.rotation = Quaternion.LookRotation(new Vector3(Target_look.position.x, transform.position.y, Target_look.position.z) - transform.position);
+                        transform.eulerAngles += Offset_rotation;
+                    }
+                        
+                    else
+                        transform.eulerAngles = Target.eulerAngles + Offset_rotation;
                 }
 
             }
@@ -102,6 +133,11 @@ public class Camera_tracking : MonoBehaviour
             }
 
         }
+    }
+
+    public void New_target(Transform _target)
+    {
+        Target = _target;
     }
 
 

@@ -10,21 +10,20 @@ public class Standart_state_boss : State
         Character = character;
     }
 
-    int Random_spec_attack = 0;
+    int Random_spec_attack = 4;
 
     public override void Enter_state()
     {
         Debug.Log("Standart_state_boss");
         base.Enter_state();
         Random_spec_attack = Random.Range(0, 5);
-        Character.Timer_value = Random.Range(4, 8);
+        Character.Timer_value = Random.Range(2, 5);
     }
 
     public override void Logic_Update()
     {
         base.Logic_Update();
         Character.Rotation_target();
-
         if (Character.Check_distance_attack)
             State_Machine_script.Change_State(Character.State_Attack);
         else

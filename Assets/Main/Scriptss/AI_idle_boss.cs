@@ -24,8 +24,23 @@ public class AI_idle_boss : Game_character_abstract
     [Tooltip("Сколько времени будет стоять в оглушение")]
     public float Timer_value = 5f;
 
+    [Tooltip("Точка захвата")]
+    [SerializeField]
+    Transform Grab_point = null;
 
-    Transform Target = null;
+    [Tooltip("Сила отбрасывания при кидание")]
+    [SerializeField]
+    float Grab_impulse_force = 30f;
+
+    [Tooltip("Сила примагничивания цели")]
+    public float Magnite_force = 0.01f;
+
+    [Tooltip("Куда смотреть")]
+    [SerializeField]
+    Transform Target_look;
+
+    [HideInInspector]
+    public Transform Target = null;
 
 
 #pragma warning restore 0649
@@ -105,7 +120,7 @@ public class AI_idle_boss : Game_character_abstract
 
     public void Rotation_target()
     {
-        Quaternion new_rotation = Quaternion.LookRotation(Target.position - transform.position, Vector3.up);
+        Quaternion new_rotation = Quaternion.LookRotation(new Vector3(Target_look.position.x, transform.position.y, Target_look.position.z) - transform.position, Vector3.up);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, new_rotation, Speed_rotation);
     }
 
@@ -129,6 +144,27 @@ public class AI_idle_boss : Game_character_abstract
     public void Stunned_start()
     {
         Movement_SM.Change_State(State_Stunned);
+    }
+
+    /// <summary>
+    /// Начало захвата цели
+    /// </summary>
+    void Grab_start()
+    {
+        Target.GetComponent<Game_character_abstract>().I_grab_activity();
+        Target.GetComponent<Game_character_abstract>().Get_find_Main_bone.SetParent(Grab_point);
+        Target.localPosition = Vector3.zero;
+    }
+
+/// <summary>
+/// Окончание захвата и выкидывание
+/// </summary>
+    void Grab_end()
+    {
+        Target.GetComponent<Game_character_abstract>().Get_find_Main_bone.SetParent(Target);
+        Target.GetComponent<Health>().Damage(5, true);
+        Target.GetComponent<Ragdoll_activity>().Add_impulse_ragdoll(transform.forward, Grab_impulse_force, ForceMode.Impulse);
+        Movement_SM.Change_State(State_Standing);
     }
 
     public void Stomp()

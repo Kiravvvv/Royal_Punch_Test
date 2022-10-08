@@ -20,6 +20,10 @@ public abstract class Game_character_abstract : Game_object_abstract
     [SerializeField]
     protected Transform Head = null;
 
+    [Tooltip("Главная кость (если есть)")]
+    [SerializeField]
+    protected Transform Main_bone = null;
+
     [Tooltip("Скорость")]
     [SerializeField]
     protected float Speed_movement = 0.1f;
@@ -108,6 +112,27 @@ public abstract class Game_character_abstract : Game_object_abstract
     protected virtual void Dead()
     {
         Control_bool = false;
+    }
+
+    /// <summary>
+    /// Нас захватили
+    /// </summary>
+    public void I_grab_activity()
+    {
+        GetComponent<Ragdoll_activity>().Activity_base_collider_and_rigibody(false);
+        Control_bool = false;
+    }
+
+
+    /// <summary>
+    /// Получить трансфорт главной кости
+    /// </summary>
+    public Transform Get_find_Main_bone
+    {
+        get
+        {
+            return Main_bone;
+        }
     }
 
     /// <summary>

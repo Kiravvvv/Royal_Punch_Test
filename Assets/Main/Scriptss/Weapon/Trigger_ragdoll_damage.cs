@@ -9,7 +9,11 @@ public class Trigger_ragdoll_damage : Trigger_damage
         if (_health != null && _health != My_health)
         {
             _health.Damage(Damage, true);
-            if(PS_punch != null)
+
+            Vector3 direction = _health.transform.position - My_health.transform.position;
+            _health.GetComponent<Ragdoll_activity>().Add_impulse_ragdoll(direction.normalized + Vector3.up * 2, 12, ForceMode.Impulse);
+
+            if (PS_punch != null)
             PS_punch.Play();
         }
     }

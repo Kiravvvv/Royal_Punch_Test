@@ -169,10 +169,29 @@ public class Ragdoll_activity : MonoBehaviour
 
 
     /// <summary>
-    /// Изменить активность частей куклы
+    /// Изменить активность основной физики и коллайдеров
     /// </summary>
     /// <param name="_active">Активность</param>
-    void Activity_ragdoll(bool _active)
+    public void Activity_base_collider_and_rigibody(bool _active)
+    {
+        foreach (Collider collider in Collider_base_array)
+        {
+            collider.enabled = _active;
+        }
+
+        foreach (Rigidbody rigidbody in Rigidbody_base_array)
+        {
+            rigidbody.useGravity = _active;
+
+            rigidbody.isKinematic = !_active;
+        }
+    }
+
+        /// <summary>
+        /// Изменить активность частей куклы
+        /// </summary>
+        /// <param name="_active">Активность</param>
+        void Activity_ragdoll(bool _active)
     {
         foreach (Collider collider in Collider_base_array)
         {
@@ -223,7 +242,10 @@ public class Ragdoll_activity : MonoBehaviour
 
         float direction_constant = 1;
         if (back_result)
+        {
             direction_constant = -1;
+        }
+
 
         Vector3 pos_target_look = Rigidbody_array[0].transform.position + Rigidbody_array[0].transform.up * (10f * direction_constant);
         pos_target_look.y = transform.position.y;
@@ -292,9 +314,16 @@ public class Ragdoll_activity : MonoBehaviour
                 }
 
             }
+
         }
 
         Anim.enabled = true;
+
+        if (_back)
+            Anim.Play(Name_clip_Get_up_back,0,0);
+        else
+            Anim.Play(Name_clip_Get_up_belly, 0, 0);
+
         Anim.SetTrigger("Get_up");
         Get_up_bool = false;
         Active_bool = false;
@@ -345,33 +374,20 @@ public class Ragdoll_activity : MonoBehaviour
     }
 
 
-    /*
     /// <summary>
-    /// Изменить активность куклы с придаванием ей импульса от цели
+    /// Толкнуть куклу в направление
     /// </summary>
-    /// <param name="_active">Активность</param>
-    /// <param name="_player">Цель от которой будет отлетать</param>
-    public void Active_change(bool _active, Transform _player)
+    /// <param name="_direction"></param>
+    /// <param name="_force"></param>
+    public void Add_impulse_ragdoll(Vector3 _direction, float _force, ForceMode _force_mode)
     {
-        Active_change(_active);
-
-        if (_active)
+        for (int x = 0; x < Rigidbody_array.Length; x++)
         {
+                Rigidbody_array[x].AddForce((_direction) * _force, _force_mode);
 
-            for (int x = 0; x < Rigidbody_array.Length; x++)
-                {
-                    if (_player != null)
-                    {
-                        Vector3 direction = transform.position - _player.position;
-                        Rigidbody_array[x].AddForce((direction + new Vector3(0, 7, 0)) * Force_push);
-                    }
-
-                }
-            
         }
-
     }
-    */
+
     #endregion
 
     #region Дополнительно

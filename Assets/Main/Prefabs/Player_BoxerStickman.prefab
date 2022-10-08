@@ -590,7 +590,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2066969482529506473}
   m_LocalRotation: {x: 0.00000008146034, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.05, y: 0, z: 0.15}
   m_LocalScale: {x: 4.954789, y: 4.954789, z: 4.954789}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6988,7 +6988,13 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'mixamorig:RightShoulder'\n\tTransform 'mixamorig:LeftShoulder'\n\tTransform
+    'mixamorig:Spine1'\n\tTransform 'mixamorig:Spine2'\n\tTransform 'mixamorig:RightForeArm'\n\tTransform
+    'mixamorig:LeftArm'\n\tTransform 'mixamorig:RightArm'\n\tTransform 'mixamorig:LeftForeArm'\n\tTransform
+    'mixamorig:RightShoulder'\n\tTransform 'mixamorig:LeftShoulder'\n\tand more ...\n\tFrom
+    animation clip 'GGPunch 3'\n\tFrom animation clip 'GGPunch 4'"
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -7008,6 +7014,7 @@ MonoBehaviour:
   Anim: {fileID: 3197672420250993671}
   Sound_control_: {fileID: 0}
   Head: {fileID: 1802034047891831901}
+  Main_bone: {fileID: 446018651649855203}
   Speed_movement: 0.2
   Speed_rotation: 5
   Jump_force: 100
