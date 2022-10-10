@@ -52,11 +52,12 @@ public class Uppercut_attack_boss_state : State
             Character.TriggerAnimation(Animator.StringToHash("Fail"));
                 Character.Stunned_start();
         }
-        else
+        else if(!Grab_bool)
         {
             Vector3 magnite_direction = Character.transform.position - Target.position;
             Target.GetComponent<Rigidbody>().MovePosition(Target.position + magnite_direction * Character.Magnite_force);
-            //Target.position = Vector3.MoveTowards(Target.position, Character.transform.position, Character.Magnite_force);
+            if(!Character.Check_Timer)
+            Character.Rotation_target();
         }
     }
 

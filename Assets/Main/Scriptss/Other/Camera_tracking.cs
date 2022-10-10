@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Camera_tracking : MonoBehaviour
 {
+    [Tooltip("Название показыающее за что отвечает даное слежение")]
+    [SerializeField]
+    string Name_camera_tracking = "Слежу за...";
+
     [Tooltip("Цель для слежения")]
     [SerializeField]
     Transform Target = null;
@@ -145,7 +149,7 @@ public class Camera_tracking : MonoBehaviour
     {
         if (Target && Debug_mode)
         {
-
+            /*
             Vector3 target_vector = Vector3.zero;
 
             if (Follow_X_bool)
@@ -155,15 +159,20 @@ public class Camera_tracking : MonoBehaviour
             if (Follow_Z_bool)
                 target_vector.z = Target.position.z;
 
+
             transform.position = target_vector + Offset;
 
             if (Rotation_bool)
             {
                 transform.eulerAngles = Target.eulerAngles + Offset_rotation;
             }
+            */
+            Movement_to_target();
+        }
+            
+
 
         }
-    }
 
-}
+    }
 

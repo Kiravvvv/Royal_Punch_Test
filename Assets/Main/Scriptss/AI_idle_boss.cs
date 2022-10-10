@@ -130,7 +130,7 @@ public class AI_idle_boss : Game_character_abstract
         {
             bool result = false;
 
-            Quaternion new_rotation = Quaternion.LookRotation(Target.position - transform.position, Vector3.up);
+            Quaternion new_rotation = Quaternion.LookRotation(new Vector3(Target.position.x, transform.position.y, Target.position.z) - transform.position, Vector3.up);
 
             if(transform.rotation == new_rotation)
             {
@@ -152,8 +152,10 @@ public class AI_idle_boss : Game_character_abstract
     void Grab_start()
     {
         Target.GetComponent<Game_character_abstract>().I_grab_activity();
-        Target.GetComponent<Game_character_abstract>().Get_find_Main_bone.SetParent(Grab_point);
-        Target.localPosition = Vector3.zero;
+        Target.GetComponent<Animator>().Play("Fear", 0, 0);
+       Target.GetComponent<Game_character_abstract>().Get_find_Main_bone.SetParent(Grab_point);
+        //Target.localPosition = Vector3.zero;
+        Change_camera.Instance.Active_boss_camera();
     }
 
 /// <summary>
@@ -165,6 +167,7 @@ public class AI_idle_boss : Game_character_abstract
         Target.GetComponent<Health>().Damage(5, true);
         Target.GetComponent<Ragdoll_activity>().Add_impulse_ragdoll(transform.forward, Grab_impulse_force, ForceMode.Impulse);
         Movement_SM.Change_State(State_Standing);
+        Change_camera.Instance.Active_player_camera();
     }
 
     public void Stomp()

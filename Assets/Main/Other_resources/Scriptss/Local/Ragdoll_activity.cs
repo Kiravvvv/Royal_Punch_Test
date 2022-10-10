@@ -140,6 +140,16 @@ public class Ragdoll_activity : MonoBehaviour
     IEnumerator Coroutine_Auto_get_up()
     {
         Get_up_bool = true;
+
+        Vector3 Pos_main_bone = Bones_array[1].position;
+        Quaternion Rot_main_bone = Bones_array[1].rotation;
+
+        Bones_array[0].localPosition = Vector3.zero;
+        Bones_array[0].localRotation = Quaternion.identity;
+
+        Bones_array[1].position = Pos_main_bone;
+        Bones_array[1].rotation = Rot_main_bone;
+
         yield return new WaitForSeconds(Time_Auto_get_up);
         if(!Off_bool)
         Up_ragdoll();
@@ -288,6 +298,7 @@ public class Ragdoll_activity : MonoBehaviour
     /// <returns></returns>
     IEnumerator Coroutine_reset_bones(bool _back)
     {
+
         float active_time = 0;//Сколько времени прошло
 
         float final_value = 0;//Когда будет 1, то должно всё закончится

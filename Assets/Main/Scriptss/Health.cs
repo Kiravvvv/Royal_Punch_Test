@@ -145,7 +145,7 @@ public class Health : MonoBehaviour, I_damage
 
             if (Anim)
             {
-                Anim.Play("Harm");
+                Anim.Play("Harm",1,0);
             }
 
             if(Blinking_effect_script)

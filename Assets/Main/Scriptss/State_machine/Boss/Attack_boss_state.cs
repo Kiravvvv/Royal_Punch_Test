@@ -28,6 +28,9 @@ public class Attack_boss_state : State
         else
         {
             Character_script.TriggerAnimation(Attack_anim_id);
+
+            if(!Character.Check_distance_attack)
+                State_Machine_script.Change_State(Character.State_Standing);
         }
     }
 

@@ -12,10 +12,13 @@ public class Standart_state_boss : State
 
     int Random_spec_attack = 4;
 
+    bool No_random_attack_bool = true;
+
     public override void Enter_state()
     {
         Debug.Log("Standart_state_boss");
         base.Enter_state();
+        if(!No_random_attack_bool)
         Random_spec_attack = Random.Range(0, 5);
         Character.Timer_value = Random.Range(2, 5);
     }
@@ -48,7 +51,7 @@ public class Standart_state_boss : State
                         State_Machine_script.Change_State(Character.State_Uppercut_attack);
                         break; 
                 }
-
+                No_random_attack_bool = false;
             }
         }
     }
